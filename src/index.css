@@ -1,0 +1,26 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
+  background: #faf8f2;
+  color: #1a1a1a;
+  min-height: 100vh;
+}
+
+input:focus {
+  outline: none;
+  border-color: #1a6b4a !important;
+}
+
+button:hover {
+  opacity: 0.9;
+}
