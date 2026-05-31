@@ -1,114 +1,26 @@
 # Kasama SG 🤝
+### NUS Orbital 2026 — A PWA for migrant domestic helpers in Singapore
 
-**Together, we belong.**
+Kasama (Filipino for *together*) is a progressive web app that helps migrant domestic helpers feel a little less alone by making Singapore feel more like home. We felt that a lot of the information this group needs like community events, legal rights, emergency contacts, familiar food travels by word of mouth. We wanted to fix that to make sure that Singapore is a place where everyone can find their footing.
 
-A progressive web app for migrant domestic helpers in Singapore — connecting them with community resources, rights information, and everyday support.
+**Live app: [kasama-sg.vercel.app](https://kasama-sg.vercel.app)**
 
 ---
 
-## Getting started
+## Features
 
-### Prerequisites
-- Node.js 18+
-- A [Supabase](https://supabase.com) account (free)
+### Language Selection
+#### Choose your preferred language before anything else
 
-### 1. Clone and install
+Migrant domestic helpers in Singapore come from all over the world, so the first screen lets users pick from English, Filipino, 中文, or தமிழ் (to be updated with more). The choice is saved so the app remembers it on every visit. 
 
-```bash
-git clone https://github.com/YOUR_USERNAME/kasama-sg.git
-cd kasama-sg
-npm install
-```
+### Authentication
+#### Secure sign up and sign in with email and password
 
-### 2. Set up Supabase
-
-1. Create a new project at [supabase.com](https://supabase.com)
-2. Go to **Settings → API** and copy your project URL and anon key
-3. Copy `.env.example` to `.env` and fill in your values:
-
-```bash
-cp .env.example .env
-```
-
-```
-VITE_SUPABASE_URL=https://your-project-id.supabase.co
-VITE_SUPABASE_ANON_KEY=your-anon-key-here
-```
-
-### 3. Set up the database
-
-Run this SQL in your Supabase **SQL Editor**:
-
-```sql
--- Enable email auth (already on by default)
-
--- Contacts / help directory
-create table contacts (
-  id uuid primary key default gen_random_uuid(),
-  org_name text not null,
-  phone text,
-  category text,       -- e.g. 'helpline', 'ngo', 'embassy', 'clinic'
-  website text,
-  notes text,
-  created_at timestamptz default now()
-);
-
--- Rights and information content
-create table content_items (
-  id uuid primary key default gen_random_uuid(),
-  section text not null,   -- e.g. 'salary', 'rest_days', 'abuse'
-  title text not null,
-  body text not null,
-  language text default 'en',
-  updated_at timestamptz default now()
-);
-
--- Curated places (for map)
-create table places (
-  id uuid primary key default gen_random_uuid(),
-  name text not null,
-  category text,           -- e.g. 'clinic', 'food', 'remittance', 'worship'
-  lat float,
-  lng float,
-  address text,
-  phone text,
-  notes text
-);
-
--- Salary tracker (personal, protected by RLS)
-create table salary_logs (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid references auth.users not null,
-  log_date date not null,
-  expected_amount numeric,
-  received_amount numeric,
-  notes text,
-  created_at timestamptz default now()
-);
-
--- Row-level security: users can only see their own salary logs
-alter table salary_logs enable row level security;
-create policy "Users see own logs" on salary_logs
-  for all using (auth.uid() = user_id);
-
--- Contacts and content are public (read-only)
-alter table contacts enable row level security;
-create policy "Public read contacts" on contacts for select using (true);
-
-alter table content_items enable row level security;
-create policy "Public read content" on content_items for select using (true);
-
-alter table places enable row level security;
-create policy "Public read places" on places for select using (true);
-```
-
-### 4. Run locally
-
-```bash
-npm run dev
-```
-
-App runs at `http://localhost:5173`
+- Users can create an account or sign in from the same screen
+- Error messages are shown in the user's chosen language (wrong password, email already taken, etc.)
+- Auth state persists across sessions — once signed in, users go straight to the home screen
+- Built on Supabase Auth with Row Level Security so each user's personal data stays private
 
 ---
 
@@ -117,46 +29,24 @@ App runs at `http://localhost:5173`
 ```
 src/
 ├── pages/
-│   ├── AuthPage.jsx      # Language selection + login/register
-│   └── HomePage.jsx      # Main app (post-login)
+│   ├── AuthPage.jsx      # language picker + login/register
+│   └── HomePage.jsx      # main app after login
 ├── lib/
-│   └── supabase.js       # Supabase client
+│   └── supabase.js       # supabase client setup
 ├── i18n/
-│   ├── index.js          # i18next setup
-│   └── translations.js   # EN, FIL, ZH, TA strings
-├── App.jsx               # Auth routing
+│   ├── index.js          # i18next config
+│   └── translations.js   # strings in EN, FIL, ZH, TA
+├── App.jsx               # routing + auth state
 ├── main.jsx
 └── index.css
 ```
 
-## Deploying to Cloudflare Pages
-
-1. Push your repo to GitHub
-2. Go to [Cloudflare Pages](https://pages.cloudflare.com) → Create application → Connect to Git
-3. Build settings:
-   - Build command: `npm run build`
-   - Build output directory: `dist`
-4. Add environment variables (same as `.env`) under Settings → Environment variables
-
 ---
 
-## Tech stack
-
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 18 + Vite |
-| Styling | Inline CSS (mobile-first) |
-| Routing | React Router v6 |
-| Backend | Supabase (PostgreSQL + Auth) |
-| i18n | react-i18next |
-| Maps | Leaflet + OpenStreetMap *(Milestone 2)* |
-| Hosting | Cloudflare Pages |
-| PWA | vite-plugin-pwa |
-
----
-
-## Roadmap
-
-- **Milestone 1** — Auth, help directory from DB, one rights page ✅
-- **Milestone 2** — Map, full rights library, phrasebook, salary tracker
-- **Milestone 3** — Audio phrasebook, offline PWA, community announcements
+## Tech Stack
+- React 18 + Vite
+- Supabase (PostgreSQL + Auth)
+- react-i18next
+- React Router v6
+- Vercel (hosting)
+- vite-plugin-pwa
