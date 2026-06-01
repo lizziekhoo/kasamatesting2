@@ -38,23 +38,7 @@ export default function HomePage({ session }) {
           <p style={{ fontSize: '16px', fontWeight: 600, margin: 0 }}>{session?.user?.email}</p>
         </div>
 
-        {/* Feature tiles (placeholders for M1) */}
-        <p style={{ fontSize: '13px', fontWeight: 600, color: '#888', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '12px' }}>
-          Coming soon
-        </p>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-          {[
-            { icon: '📋', label: 'Know Your Rights' },
-            { icon: '📞', label: 'Help Directory' },
-            { icon: '🗺️', label: 'Curated Map' },
-            { icon: '💰', label: 'Salary Tracker' },
-          ].map(f => (
-            <div key={f.label} style={{ background: '#fff', borderRadius: '14px', padding: '20px', border: '1.5px solid #e8e4dc', opacity: 0.6 }}>
-              <div style={{ fontSize: '24px', marginBottom: '8px' }}>{f.icon}</div>
-              <div style={{ fontSize: '14px', fontWeight: 600, color: '#1a1a1a' }}>{f.label}</div>
-            </div>
-          ))}
-        </div>
+
       </div>
     </div>
   )

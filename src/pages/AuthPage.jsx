@@ -22,12 +22,14 @@ export default function AuthPage() {
   const [success, setSuccess] = useState('')
 
   function pickLanguage(code) {
+    // Let's switch to this language
     setSelectedLang(code)
     i18n.changeLanguage(code)
     localStorage.setItem('kasama_lang', code)
   }
 
   function proceedToAuth() {
+    // Ready for the next step!
     setStep('auth')
   }
 
@@ -50,7 +52,7 @@ export default function AuthPage() {
       } else {
         const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
         if (signInError) throw signInError
-        // On success, App.jsx will redirect via onAuthStateChange
+        // All good — App.jsx will handle the redirect
       }
     } catch (err) {
       if (err.message?.includes('Invalid login')) setError(t('errorInvalidCredentials'))
@@ -63,12 +65,12 @@ export default function AuthPage() {
 
   return (
     <div style={styles.root}>
-      {/* Background blob decoration */}
+      {/* Just some pretty background blobs */}
       <div style={styles.blobTop} />
       <div style={styles.blobBottom} />
 
       <div style={styles.card}>
-        {/* Logo */}
+        {/* Here's our logo */}
         <div style={styles.logoRow}>
           <span style={styles.logoHeart}>♥</span>
           <span style={styles.logoText}>Kasama</span>
@@ -76,7 +78,7 @@ export default function AuthPage() {
         <p style={styles.tagline}>{t('tagline')}</p>
 
         {step === 'language' ? (
-          /* ── STEP 1: Language selection ── */
+          /* First things first — let's pick a language */
           <div>
             <p style={styles.sectionLabel}>{t('chooseLanguage')}</p>
             <div style={styles.langGrid}>
@@ -105,7 +107,7 @@ export default function AuthPage() {
             </button>
           </div>
         ) : (
-          /* ── STEP 2: Login / Register ── */
+          /* Now for the fun part — sign in or join up! */
           <div>
             {/* Tab toggle */}
             <div style={styles.tabRow}>
@@ -170,7 +172,7 @@ export default function AuthPage() {
               </button>
             </form>
 
-            {/* Back to language selection */}
+            {/* Changed your mind about the language? */}
             <button
               onClick={() => setStep('language')}
               style={styles.backBtn}

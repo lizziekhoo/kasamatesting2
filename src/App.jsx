@@ -9,18 +9,19 @@ export default function App() {
   const [session, setSession] = useState(undefined) // undefined = loading
 
   useEffect(() => {
-    // Get initial session
+    // Let's see if someone's already signed in
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
     })
-    // Listen for auth changes (login, logout)
+    // Keep an ear out for sign in/out changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
     })
+    // Cleanup when we're done
     return () => subscription.unsubscribe()
   }, [])
 
-  // Still checking session
+  // Still figuring out who's here
   if (session === undefined) {
     return (
       <div style={{
@@ -33,7 +34,7 @@ export default function App() {
         color: '#1a6b4a',
         fontSize: '15px'
       }}>
-        Loading...
+        Just a sec...
       </div>
     )
   }
