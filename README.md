@@ -1,4 +1,4 @@
-# Kasama SG 🤝
+# Kasama 
 ### NUS Orbital 2026 (Artemis)
 
 **Together, we belong.**
