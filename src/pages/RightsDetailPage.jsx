@@ -10,8 +10,6 @@ export default function RightsDetailPage() {
   const { slug } = useParams()
   const { t } = useTranslation()
 
-  // Show the cached copy immediately (works offline), then refresh in the
-  // background if we're online.
   const cached = getRightsCache()
   const cachedPage = cached?.pages?.find(p => p.slug === slug)
 
@@ -30,9 +28,6 @@ export default function RightsDetailPage() {
 
       if (cancelled) return
       if (error || !data) {
-        // Network failed or no matching row — fall back to the bundled content
-        // for this slug (then any cached copy) so the page still reads with no
-        // backend.
         if (error) console.warn('rights detail fetch failed:', error.message)
         const fallback = cachedPage || RIGHTS.find(p => p.slug === slug)
         if (fallback) {
@@ -85,8 +80,6 @@ export default function RightsDetailPage() {
   )
 }
 
-// Turns the plain-text body into something readable: paragraphs and bullet
-// lists. Good enough for our content without pulling in a markdown library.
 function renderBody(body) {
   if (!body) return null
   const lines = body.split('\n')
