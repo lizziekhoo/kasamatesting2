@@ -3,10 +3,6 @@ import { useTranslation } from 'react-i18next'
 import PageHeader from '../components/PageHeader'
 import { getSalaryEntries, addSalaryEntry, deleteSalaryEntry } from '../lib/storage'
 
-// Everything here lives in localStorage — no account or network needed, which
-// is the whole point: a helper can privately log what they've been paid,
-// offline, on a borrowed phone.
-
 function today() {
   // yyyy-mm-dd, in the user's local day (not UTC) so "today" feels right.
   const d = new Date()
@@ -43,7 +39,6 @@ export default function SalaryPage() {
       note: note.trim(),
     })
     setEntries(getSalaryEntries())
-    // Reset the row but keep the date — usually you log a few in a sitting.
     setAmount('')
     setHours('')
     setNote('')
@@ -145,7 +140,6 @@ function SummaryCard({ label, value, accent }) {
   )
 }
 
-// 2026-06-01 → "1 Jun 2026" — a friendlier read than the raw ISO string.
 function formatDate(iso) {
   const d = new Date(iso + 'T00:00:00')
   if (isNaN(d)) return iso
