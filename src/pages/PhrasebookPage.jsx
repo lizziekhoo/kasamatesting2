@@ -19,10 +19,8 @@ export default function PhrasebookPage() {
     try {
       await navigator.clipboard.writeText(text)
       setCopied(id)
-      // Flash "Copied!" for a sec, then clear it.
       setTimeout(() => setCopied(c => (c === id ? null : c)), 1400)
     } catch {
-      // Clipboard can be blocked (older browsers / insecure context) — ignore.
     }
   }
 
