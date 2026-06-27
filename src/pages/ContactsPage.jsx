@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
+import { CONTACTS } from '../data/contacts'
 import PageHeader from '../components/PageHeader'
 
 // Display info for each contact category. The actual contacts themselves come
@@ -40,12 +41,13 @@ export default function ContactsPage() {
         .order('sort_order', { ascending: true })
 
       if (cancelled) return
-      if (error) {
-        // Most likely the table hasn't been set up yet — fail soft, don't crash.
-        console.warn('contacts fetch failed:', error.message)
-        setError(true)
+      if (error || !data || data.length === 0) {
+        // Backend missing / empty / unreachable — fall back to the bundled
+        // directory so the page is never blank.
+        if (error) console.warn('contacts fetch failed:', error.message)
+        setContacts(CONTACTS)
       } else {
-        setContacts(data || [])
+        setContacts(data)
       }
       setLoading(false)
     }

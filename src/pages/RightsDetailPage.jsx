@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 import { getRightsCache, setRightsCache } from '../lib/storage'
+import { RIGHTS } from '../data/rights'
 import PageHeader from '../components/PageHeader'
 
 export default function RightsDetailPage() {
@@ -28,14 +29,17 @@ export default function RightsDetailPage() {
         .maybeSingle()
 
       if (cancelled) return
-      if (error) {
-        // Network failed — if we have a cached copy we just keep showing it.
-        if (!cachedPage) setNotFound(true)
-        setLoading(false)
-        return
-      }
-      if (!data) {
-        setNotFound(true)
+      if (error || !data) {
+        // Network failed or no matching row — fall back to the bundled content
+        // for this slug (then any cached copy) so the page still reads with no
+        // backend.
+        if (error) console.warn('rights detail fetch failed:', error.message)
+        const fallback = cachedPage || RIGHTS.find(p => p.slug === slug)
+        if (fallback) {
+          setPage(fallback)
+        } else {
+          setNotFound(true)
+        }
         setLoading(false)
         return
       }

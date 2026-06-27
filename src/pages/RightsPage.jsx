@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 import { getRightsCache, setRightsCache } from '../lib/storage'
+import { RIGHTS } from '../data/rights'
 import PageHeader from '../components/PageHeader'
 
 export default function RightsPage() {
@@ -25,16 +26,16 @@ export default function RightsPage() {
         .order('category', { ascending: true })
 
       if (cancelled) return
-      if (error) {
-        // Stay on whatever cache we have rather than blanking the screen.
-        console.warn('rights fetch failed:', error.message)
-        if (!cached) setError(true)
-        setUsingCache(true)
-      } else {
-        const list = data || []
-        setPages(list)
-        setRightsCache(list) // stash for next offline visit
+      if (!error && data && data.length) {
+        setPages(data)
+        setRightsCache(data) // stash for next offline visit
         setUsingCache(false)
+      } else {
+        // Backend missing / empty / unreachable — prefer a cached copy, then
+        // fall back to the bundled library so the page is never blank.
+        if (error) console.warn('rights fetch failed:', error.message)
+        setPages(cached?.pages?.length ? cached.pages : RIGHTS)
+        setUsingCache(Boolean(cached))
       }
       setLoading(false)
     }
