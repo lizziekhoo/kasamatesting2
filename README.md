@@ -1,5 +1,5 @@
 # Kasama 
-### NUS Orbital 2026 (Artemis)
+### NUS Orbital 2026 (Vostok)
 
 **Together, we belong.**
 
