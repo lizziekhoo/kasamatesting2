@@ -1,8 +1,5 @@
 import { useNavigate } from 'react-router-dom'
 
-// A simple header used at the top of most pages: a title, an optional line of
-// sub-text, and (on sub-pages) a back chevron. Keeps things visually
-// consistent without each page re-inventing it.
 export default function PageHeader({ title, subtitle, back }) {
   const navigate = useNavigate()
 
