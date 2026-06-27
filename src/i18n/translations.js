@@ -1,9 +1,3 @@
-// src/i18n/translations.js
-// Translations for English, Filipino, Chinese (Simplified), Tamil.
-// Auth strings came first (Milestone 1); everything under "nav", "home",
-// "contacts", "rights", "map", "place", "salary", "phrase" and "me" is new
-// for the Milestone 2 features.
-
 export const translations = {
   en: {
     translation: {
