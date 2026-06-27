@@ -1,9 +1,5 @@
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-
-// The bottom tab bar — how you get around the app on a phone. We keep it to
-// five tabs so a thumb can comfortably reach all of them. Salary and the
-// phrasebook live under "Me" so the bar doesn't get crowded.
 const TABS = [
   { to: '/',         icon: '🏠', labelKey: 'nav.home' },
   { to: '/help',     icon: '☎️', labelKey: 'nav.help' },
