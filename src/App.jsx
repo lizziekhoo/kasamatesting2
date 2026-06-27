@@ -25,9 +25,9 @@ export default function App() {
 
   useEffect(() => {
     // Let's see if someone's already signed in
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-    })
+    supabase.auth.getSession()
+      .then(({ data: { session } }) => setSession(session))
+      .catch(() => setSession(null)) // Supabase unreachable? Don't freeze — fall through to the auth page instead of hanging on "Just a sec…"
     // Keep an ear out for sign in/out changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
