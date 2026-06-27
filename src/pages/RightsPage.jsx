@@ -9,8 +9,7 @@ import PageHeader from '../components/PageHeader'
 export default function RightsPage() {
   const { t } = useTranslation()
 
-  // Start with whatever we cached last time, so the page shows instantly and
-  // still works with no connection. null = we've never fetched.
+  // null = nev fetched
   const cached = getRightsCache()
   const [pages, setPages] = useState(cached?.pages || [])
   const [usingCache, setUsingCache] = useState(Boolean(cached))
