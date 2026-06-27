@@ -1,11 +1,4 @@
-// src/data/phrases.js
-// The phrasebook. We ship the phrases pre-translated into all four languages
-// (no live translation API needed — that was a hard requirement from the
-// research phase, since helpers often have limited data).
-//
-// Each phrase is just an object with one field per language, so the UI can
-// pick whichever one matches the user's chosen language and fall back to
-// English if a translation is ever missing.
+
 
 export const PHRASE_CATEGORIES = [
   { id: 'greetings',       icon: '👋', name: { en: 'Greetings',       fil: 'Bati',          zh: '问候',       ta: 'வாழ்த்துக்கள்' } },
