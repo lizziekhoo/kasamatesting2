@@ -14,7 +14,7 @@ export default defineConfig({
         description: 'Together, we belong. Support for migrant domestic helpers in Singapore.',
         theme_color: '#1a6b4a',
         background_color: '#faf8f4',
-        display: 'standalone',
+        display: 'browser', // opens in a normal browser tab — no standalone app window, no install prompt
         scope: '/',
         start_url: '/',
         icons: [
