@@ -41,7 +41,6 @@ export default function AuthPage() {
 
     try {
       if (mode === 'register') {
-        // Catch the common ones before we even bother the server.
         if (password.length < 6) {
           setError(t('errorWeakPassword'))
           setLoading(false)
@@ -58,12 +57,9 @@ export default function AuthPage() {
       } else {
         const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
         if (signInError) throw signInError
-        // All good — App.jsx will handle the redirect
+        // App.jsx handle redirect
       }
     } catch (err) {
-      // Match our friendly copy where we can — but otherwise show Supabase's
-      // actual message. A vague "something went wrong" is useless when you're
-      // trying to work out why sign up keeps failing.
       const msg = (err?.message || '').toLowerCase()
       if (msg.includes('invalid login')) setError(t('errorInvalidCredentials'))
       else if (msg.includes('already registered')) setError(t('errorEmailTaken'))
