@@ -16,8 +16,6 @@ export default function MapPage() {
   const markersRef = useRef(null)
   const [activeCat, setActiveCat] = useState('all')
 
-  // Spin up the map just once. We keep the instance and its marker layer in
-  // refs so filtering doesn't tear the whole map down each time.
   useEffect(() => {
     const map = L.map(mapEl.current, { zoomControl: true, attributionControl: true })
       .setView([1.315, 103.84], 12)
@@ -39,8 +37,7 @@ export default function MapPage() {
       markersRef.current = null
     }
   }, [])
-
-  // Redraw the pins whenever the category filter changes.
+  
   useEffect(() => {
     const layer = markersRef.current
     if (!layer) return
@@ -49,8 +46,6 @@ export default function MapPage() {
     const shown = PLACES.filter(p => activeCat === 'all' || p.category === activeCat)
     shown.forEach(p => {
       const cat = getCategory(p.category)
-      // A coloured pin with the category emoji — nicer than Leaflet's default
-      // marker, and it sidesteps the broken-default-icon bundler headache.
       const icon = L.divIcon({
         className: 'kasama-pin',
         html: `<div style="
