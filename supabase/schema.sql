@@ -1,16 +1,12 @@
--- ===========================================================================
 -- Kasama — Supabase schema + seed data
 -- ---------------------------------------------------------------------------
--- Run this in the Supabase Dashboard → SQL Editor → New query → Run.
 -- It creates the two tables the frontend reads from and fills them with
 -- starter content (real Singapore helplines + accurate FDW rights info).
 --
 -- The same content also ships in the app as a static fallback
--- (src/data/contacts.js, src/data/rights.js) so the pages are never empty,
--- even with no backend. Keep this file in sync with those.
+-- (src/data/contacts.js, src/data/rights.js) so the pages are never empty, even with no backend
 --
 -- Safe to re-run: it clears and re-inserts the seed rows each time.
--- ===========================================================================
 
 -- ---------- contacts: the Help & Helplines directory -----------------------
 create table if not exists public.contacts (
@@ -50,12 +46,11 @@ create policy "contacts are public" on public.contacts
 create policy "rights are public" on public.rights_pages
   for select using (true);
 
--- ===========================================================================
 -- Seed: helplines
 -- Emergency / MOM / TADM numbers are verified against public sources. The
 -- embassy and HOME/TWC2 entries are SAMPLE data — verify each on the mission
 -- or organisation's official site before launching for real.
--- ===========================================================================
+
 delete from public.contacts;
 insert into public.contacts (name, category, phone, description, place_id, sort_order) values
   -- Emergency
@@ -76,13 +71,12 @@ insert into public.contacts (name, category, phone, description, place_id, sort_
   ('HOME (Migrant Workers)',               'wellbeing', '1800 797 7977', 'Shelter, advice and casework for migrant workers in distress. (sample)', null, 2),
   ('TWC2 — Cuff Road Food Programme',      'wellbeing', '6476 9527',     'Support and meals for migrant workers in difficulty. (sample)', null, 3);
 
--- ===========================================================================
 -- Seed: rights library
 -- Content reflects Ministry of Manpower (MOM) rules for migrant / foreign
 -- domestic workers (MDWs / FDWs) in Singapore. Kept short and plain on
 -- purpose — a starting point for helpers, not formal legal advice.
 -- Bodies use $txt$ quoting so apostrophes don't need escaping.
--- ===========================================================================
+
 delete from public.rights_pages;
 insert into public.rights_pages (slug, category, title, summary, body) values
 (
