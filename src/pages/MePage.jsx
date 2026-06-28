@@ -3,14 +3,29 @@ import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 import { useSession } from '../lib/session'
 
+// Same set as the language picker on the login screen, kept here so users can
+// change language any time — not just at sign-up.
+const LANGUAGES = [
+  { code: 'en', flag: '🇬🇧', native: 'English' },
+  { code: 'fil', flag: '🇵🇭', native: 'Filipino' },
+  { code: 'zh', flag: '🇨🇳', native: '中文' },
+  { code: 'ta', flag: '🇮🇳', native: 'தமிழ்' },
+]
+
 export default function MePage() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const session = useSession()
   const email = session?.user?.email || ''
+  const currentLang = i18n.language?.split('-')[0] || 'en'
 
   async function handleSignOut() {
     await supabase.auth.signOut()
     // App.jsx listens for the auth change and bounces us to /auth.
+  }
+
+  function pickLanguage(code) {
+    i18n.changeLanguage(code)
+    localStorage.setItem('kasama_lang', code)
   }
 
   return (
@@ -24,6 +39,31 @@ export default function MePage() {
           <p style={styles.signedInLabel}>{t('me.signedInAs')}</p>
           <p style={styles.email}>{email}</p>
         </div>
+      </div>
+
+      {/* Language */}
+      <h2 style={styles.groupTitle}>{t('me.language')}</h2>
+      <div style={styles.langList}>
+        {LANGUAGES.map(l => {
+          const active = currentLang === l.code
+          return (
+            <button
+              key={l.code}
+              onClick={() => pickLanguage(l.code)}
+              style={{
+                ...styles.langRow,
+                background: active ? '#f0faf5' : '#fff',
+                borderColor: active ? '#1a6b4a' : '#f0ece4',
+              }}
+            >
+              <span style={styles.langFlag}>{l.flag}</span>
+              <span style={{ ...styles.langName, fontWeight: active ? 700 : 500 }}>
+                {l.native}
+              </span>
+              {active && <span style={styles.langCheck}>✓</span>}
+            </button>
+          )
+        })}
       </div>
 
       {/* Tools */}
@@ -101,6 +141,35 @@ const styles = {
     textTransform: 'uppercase',
     letterSpacing: '0.4px',
     marginBottom: '10px',
+  },
+  langList: {
+    marginBottom: '16px',
+  },
+  langRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+    width: '100%',
+    borderRadius: '14px',
+    padding: '13px 14px',
+    marginBottom: '8px',
+    border: '1.5px solid #f0ece4',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    textAlign: 'left',
+  },
+  langFlag: {
+    fontSize: '20px',
+  },
+  langName: {
+    flex: 1,
+    fontSize: '15px',
+    color: '#1a1a1a',
+  },
+  langCheck: {
+    color: '#1a6b4a',
+    fontSize: '16px',
+    fontWeight: 700,
   },
   toolRow: {
     display: 'flex',
