@@ -1,8 +1,3 @@
-// One-off helper to bake the app icon (favicon.svg) into the PNGs the
-// PWA manifest expects. The PNGs are already committed in /public, so you
-// only need to run this if you change the SVG. It needs sharp, which isn't a
-// permanent dependency — install it once with `npm install --no-save sharp`,
-// then: node scripts/generate-icons.mjs
 import sharp from 'sharp'
 import { readFileSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
