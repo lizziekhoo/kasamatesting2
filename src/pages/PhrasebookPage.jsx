@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import PageHeader from '../components/PageHeader'
-import { PHRASE_CATEGORIES, PHRASES, getPhraseText } from '../data/phrases'
+import { PHRASE_CATEGORIES, PHRASES, getPhraseText, getPhraseTip } from '../data/phrases'
 
 export default function PhrasebookPage() {
   const { t, i18n } = useTranslation()
@@ -46,7 +46,7 @@ export default function PhrasebookPage() {
           <div key={p.id} style={styles.card}>
             <p style={styles.phrase}>{text}</p>
             {showEnglish && <p style={styles.english}>{p.en}</p>}
-            {p.tip && <p style={styles.tip}>💡 {p.tip}</p>}
+            {p.tip && <p style={styles.tip}>💡 {getPhraseTip(p, lang)}</p>}
             <button
               onClick={() => copy(text, p.id)}
               style={styles.copyBtn}
