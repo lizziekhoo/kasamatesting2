@@ -46,6 +46,7 @@ export default function PhrasebookPage() {
           <div key={p.id} style={styles.card}>
             <p style={styles.phrase}>{text}</p>
             {showEnglish && <p style={styles.english}>{p.en}</p>}
+            {p.tip && <p style={styles.tip}>💡 {p.tip}</p>}
             <button
               onClick={() => copy(text, p.id)}
               style={styles.copyBtn}
@@ -111,6 +112,15 @@ const styles = {
     color: '#9a9a9a',
     margin: '0 0 12px',
     fontStyle: 'italic',
+  },
+  tip: {
+    fontSize: '13px',
+    color: '#5d6660',
+    background: '#f5f3ec',
+    borderRadius: '8px',
+    padding: '8px 10px',
+    margin: '0 0 12px',
+    lineHeight: 1.45,
   },
   copyBtn: {
     background: '#f0faf5',
